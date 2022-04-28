@@ -63,8 +63,3 @@ def clientChat(host=str, port=int, info=False):
     # close the socket
     s.close()
 
-cliCon = {}
-
-with open('clientConf.json', 'r') as f:
-    cliCon = json.load(f)
-clientChat(host=cliCon['server-host'], port=cliCon['server-port'])
