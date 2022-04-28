@@ -13,7 +13,7 @@ try:
 except Exception as e:
     print(e)
 
-
+os.system('clear')
 from colorama import Fore, init
 init()
 
