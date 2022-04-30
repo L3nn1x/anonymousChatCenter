@@ -2,9 +2,8 @@ import socket
 import random
 from threading import Thread
 from datetime import datetime
-from colorama import Fore, init, Back
-import json
-
+from colorama import Fore, init
+import os
 # init colors
 init()
 
@@ -20,6 +19,11 @@ client_color = random.choice(colors)
 
 
 def clientChat(host=str, port=int, info=False):
+
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
     # server's IP address
     # if the server is not on this machine,
     # put the private (network) IP address (e.g 192.168.1.2)
@@ -62,4 +66,3 @@ def clientChat(host=str, port=int, info=False):
 
     # close the socket
     s.close()
-
