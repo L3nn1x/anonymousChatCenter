@@ -3,10 +3,10 @@ ACC(anonymous Chat Center) is a chat that you can run in your kali-linux termina
 
 
 # Instalation
-    git clone https://github.com/L3nn1x/anonymousChatCenter.git
+  *  git clone https://github.com/L3nn1x/anonymousChatCenter.git
     
-    cd anonymousChatCenter
+  *  cd anonymousChatCenter
     
-    sudo python setup.py
+  *   sudo python setup.py
     
-    sudo python3 main.py
+  *   sudo python3 main.py
