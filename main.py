@@ -67,14 +67,6 @@ def makeAction(command=list):
         with open('serverConf.json', 'w') as f:
             json.dump(updateValue, f)
 
-    elif options[command[0]] == stroptions[4]: # run client.py
-        with open('clientConf.json', 'r') as f:
-            config = json.load(f)
-            clientChat(host=config['client-host'], port=config['client-port'])
-    elif options[command[0]] == stroptions[5]: # run server.py
-        with open('serverConf.json', 'r') as f:
-            serCon = json.load(f)
-            serverChat(host=serCon['server-host'], port=serCon['server-port'])
 
 
 
@@ -110,9 +102,23 @@ while True:
         for index in range(len(numoptions)):
             print(fgreen, f'\t\t::[{numoptions[index]}]::', freset, fblue, stroptions[index], freset, '\n')
 
-        user = input(f'\n::[{hostname}]:: make a selection: ', )
+
+        user = input(f'\n::[{hostname}]:: make a selection: ',)
+
+
         if options[user] == 'quit':
             break
+        if options[user] == 'run_server.py':
+            with open('serverConf.json', 'r') as f:
+                serCon = json.load(f)
+                serverChat(host=serCon['server-host'], port=serCon['server-port'])
+
+        elif options[user] == stroptions[4]:  # run client.py
+            with open('clientConf.json', 'r') as f:
+                config = json.load(f)
+                clientChat(host=config['client-host'], port=config['client-port'])
+
+            serverChat()
         selOp = selectOptions(user)
         makeAction(selOp)
     except:
