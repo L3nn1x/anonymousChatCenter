@@ -1,7 +1,7 @@
 import socket
 from threading import Thread
 from colorama import Fore, init
-import json
+import os
 
 fblue = Fore.BLUE
 fred = Fore.RED
@@ -12,7 +12,11 @@ freset = Fore.RESET
 
 
 init()
-def serverChat(host='192.168.1.23', port=5002):
+def serverChat(host='0.0.0.0', port=5002):
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
     # server's IP address
     SERVER_HOST = host
     SERVER_PORT = port # port we want to use
@@ -76,9 +80,3 @@ def serverChat(host='192.168.1.23', port=5002):
         cs.close()
     # close server socket
     s.close()
-serCon = {}
-
-with open('serverConf.json', 'r') as f:
-    serCon = json.load(f)
-
-serverChat(host=serCon['server-host'], port=serCon['server-port'])
