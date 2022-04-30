@@ -89,37 +89,36 @@ for index in range(len(numoptions)):
     print(fgreen, f'\t\t::[{numoptions[index]}]::', freset, fblue, stroptions[index], freset, '\n')
 
 while True:
-    try:
-        if os.name == 'nt':
-            os.system('cls')
-        else:
-            os.system('clear')
 
-        print(fpurple, logo, fred, """         
-        \t\tversion: 1.0
-        \t\tby: l3nn1x\n\n\n""", freset)
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
-        for index in range(len(numoptions)):
-            print(fgreen, f'\t\t::[{numoptions[index]}]::', freset, fblue, stroptions[index], freset, '\n')
+    print(fpurple, logo, fred, """         
+    \t\tversion: 1.0
+    \t\tby: l3nn1x\n\n\n""", freset)
 
-
-        user = input(f'\n::[{hostname}]:: make a selection: ',)
+    for index in range(len(numoptions)):
+        print(fgreen, f'\t\t::[{numoptions[index]}]::', freset, fblue, stroptions[index], freset, '\n')
 
 
-        if options[user] == 'quit':
-            break
-        if options[user] == 'run_server.py':
-            with open('serverConf.json', 'r') as f:
-                serCon = json.load(f)
-                serverChat(host=serCon['server-host'], port=serCon['server-port'])
+    user = input(f'\n::[{hostname}]:: make a selection: ',)
 
-        elif options[user] == stroptions[4]:  # run client.py
-            with open('clientConf.json', 'r') as f:
-                config = json.load(f)
-                clientChat(host=config['client-host'], port=config['client-port'])
 
-            serverChat()
-        selOp = selectOptions(user)
-        makeAction(selOp)
-    except:
-        continue
+    if options[user] == 'quit':
+        break
+    if options[user] == 'run_server.py':
+        with open('serverConf.json', 'r') as f:
+            serCon = json.load(f)
+            serverChat(host=serCon['server-host'], port=serCon['server-port'])
+
+    elif options[user] == stroptions[4]:  # run client.py
+        with open('clientConf.json', 'r') as f:
+            config = json.load(f)
+            clientChat(host=config['client-host'], port=config['client-port'])
+
+        serverChat()
+    selOp = selectOptions(user)
+    makeAction(selOp)
+
