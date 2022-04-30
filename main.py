@@ -121,7 +121,7 @@ while True:
             serverChat()
         selOp = selectOptions(user)
         makeAction(selOp)
-    except Exception as E:
+    except Exception as e:
         print(e)
         time.sleep(3)
         continue
