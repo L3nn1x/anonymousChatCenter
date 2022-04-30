@@ -15,7 +15,7 @@ def main():
             os.system('sudo apt-get install pip')
             os.system('sudo pip3 install colorama')
             os.system('sudo pip3 install sucket')
-            os.system('sudo pip3 install threading')
+            
 
 
     except Exception as e:
