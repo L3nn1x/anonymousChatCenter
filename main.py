@@ -1,4 +1,4 @@
-
+import time
 import json
 from client import clientChat
 from server import serverChat
@@ -89,7 +89,7 @@ for index in range(len(numoptions)):
     print(fgreen, f'\t\t::[{numoptions[index]}]::', freset, fblue, stroptions[index], freset, '\n')
 
 while True:
-
+try:
     if os.name == 'nt':
         os.system('cls')
     else:
@@ -121,4 +121,8 @@ while True:
         serverChat()
     selOp = selectOptions(user)
     makeAction(selOp)
-
+except Exception as E:
+    print(e)
+    time.sleep(3)
+    continue
+    
