@@ -63,7 +63,7 @@ def makeAction(command=list):
     elif options[command[0]] == stroptions[3]: # server PORT configuration
         with open('serverConf.json', 'r') as f:
             updateValue = json.load(f)
-            updateValue['server-port'] = command[1]
+            updateValue['server-port'] = int(command[1])
         with open('serverConf.json', 'w') as f:
             json.dump(updateValue, f)
 
