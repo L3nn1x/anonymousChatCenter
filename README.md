@@ -2,7 +2,7 @@
 ACC(anonymous Chat Center) is a chat that you can run in your kali-linux terminal.
 
 
-# Instalation
+# Kali Instalation
   *  git clone https://github.com/L3nn1x/anonymousChatCenter.git
     
   *  cd anonymousChatCenter
