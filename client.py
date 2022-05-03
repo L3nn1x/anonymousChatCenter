@@ -4,6 +4,7 @@ from threading import Thread
 from datetime import datetime
 from colorama import Fore, init
 import os
+import time
 # init colors
 init()
 
@@ -18,12 +19,12 @@ colors = [Fore.BLUE, Fore.CYAN, Fore.GREEN, Fore.LIGHTBLACK_EX,
 client_color = random.choice(colors)
 
 
-def clientChat(host=str, port=int, info=False):
-
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
+def clientChat(host=str, port=int, testMode=False):
+    if testMode == False:
+        if os.name == 'nt':
+            os.system('cls')
+        else:
+            os.system('clear')
     # server's IP address
     # if the server is not on this machine,
     # put the private (network) IP address (e.g 192.168.1.2)
@@ -33,36 +34,50 @@ def clientChat(host=str, port=int, info=False):
 
     # initialize TCP socket
     s = socket.socket()
-    print(f"[*] Connecting to {SERVER_HOST}:{SERVER_PORT}...")
+
     # connect to the server
-    s.connect((SERVER_HOST, SERVER_PORT))
-    print(Fore.GREEN, "[+] Connected.",  Fore.RESET)
-    # prompt the client for a name
-    name = input("Enter your name: ")
+    if testMode == True:
+        try:
+            s.connect((SERVER_HOST, SERVER_PORT))
+            return True
+        except:
+            return False
+    if testMode == False:
 
-    def listen_for_messages():
+        print(f"[*] Connecting to {SERVER_HOST}:{SERVER_PORT}...")
+
+        s.connect((SERVER_HOST, SERVER_PORT))
+        sucess = "[+] Connected."
+
+        print(Fore.GREEN, sucess,  Fore.RESET)
+        # prompt the client for a name
+        name = input("Enter your name: ")
+
+        def listen_for_messages():
+            while True:
+                message = s.recv(1024).decode()
+                print("\n" + message)
+
+        # make a thread that listens for messages to this client & print them
+        t = Thread(target=listen_for_messages)
+        # make the thread daemon so it ends whenever the main thread ends
+        t.daemon = True
+        # start the thread
+        t.start()
+        print(colors[-1], '\n[*] press enter to continue..\n', Fore.RESET)
         while True:
-            message = s.recv(1024).decode()
-            print("\n" + message)
 
-    # make a thread that listens for messages to this client & print them
-    t = Thread(target=listen_for_messages)
-    # make the thread daemon so it ends whenever the main thread ends
-    t.daemon = True
-    # start the thread
-    t.start()
+            # input message we want to send to the server
+            to_send = input('\nsend txt: ')
+            # a way to exit the program
+            if to_send.lower() == 'q':
+                break
+            # add the datetime, name & the color of the sender
+            date_now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            to_send = f"{client_color}[{date_now}] {name}{separator_token}{to_send}{Fore.RESET}"
+            # finally, send the message
+            s.send(to_send.encode())
 
-    while True:
-        # input message we want to send to the server
-        to_send = input()
-        # a way to exit the program
-        if to_send.lower() == 'q':
-            break
-        # add the datetime, name & the color of the sender
-        date_now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        to_send = f"{client_color}[{date_now}] {name}{separator_token}{to_send}{Fore.RESET}"
-        # finally, send the message
-        s.send(to_send.encode())
 
-    # close the socket
-    s.close()
+        # close the socket
+        s.close()
