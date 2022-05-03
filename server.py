@@ -1,5 +1,6 @@
 import socket
 from threading import Thread
+
 from colorama import Fore, init
 import os
 
@@ -12,11 +13,13 @@ freset = Fore.RESET
 
 
 init()
-def serverChat(host='0.0.0.0', port=5002):
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
+def serverChat(host='0.0.0.0', port=5002, testMode=False):
+    if testMode == False:
+
+        if os.name == 'nt':
+            os.system('cls')
+        else:
+            os.system('clear')
     # server's IP address
     SERVER_HOST = host
     SERVER_PORT = port # port we want to use
@@ -29,13 +32,21 @@ def serverChat(host='0.0.0.0', port=5002):
     # make the port as reusable port
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     # bind the socket to the address we specified
-    s.bind((SERVER_HOST, SERVER_PORT))
+    if testMode == True:
+        try:
+            s.bind((SERVER_HOST, SERVER_PORT))
+            return True
+        except:
+            return False
+
+
+
+    bd = s.bind((SERVER_HOST, SERVER_PORT))
+
     # listen for upcoming connections
     s.listen(5)
 
-    while True:
-        print('')
-        break
+
     print(fpurple, f"[*] Listening as {SERVER_HOST}:{SERVER_PORT}", freset)
 
     def listen_for_client(cs):
@@ -45,6 +56,7 @@ def serverChat(host='0.0.0.0', port=5002):
         """
         while True:
             try:
+
                 # keep listening for a message from `cs` socket
                 msg = cs.recv(1024).decode()
             except Exception as e:
@@ -65,6 +77,7 @@ def serverChat(host='0.0.0.0', port=5002):
     while True:
         # we keep listening for new connections all the time
         client_socket, client_address = s.accept()
+        client_socket.recv(1024).decode()
         print(fgreen, f"[+] {client_address} connected.", freset)
         # add the new connected client to connected sockets
         client_sockets.add(client_socket)
